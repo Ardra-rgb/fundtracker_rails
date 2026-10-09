@@ -1,0 +1,288 @@
+/*
+ * This is a manifest file that'll be compiled into application.css.
+ *
+ * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
+ * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
+ * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
+ * depending on specificity.
+ *
+ * Consider organizing styles into separate files for maintainability.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+:root {
+  color-scheme: light;
+  --ink: #202a28;
+  --muted: #737d78;
+  --line: #e1e7e2;
+  --paper: #f4f6f2;
+  --white: #fff;
+  --green: #1d7658;
+  --green-dark: #15563f;
+  --mint: #e6f2e9;
+  --amber: #b66b27;
+  --amber-light: #fbf0df;
+  --red: #a7443c;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--paper);
+}
+
+a {
+  color: var(--green);
+}
+
+button, input {
+  font: inherit;
+}
+
+.auth-page {
+  min-height: 100vh;
+  background: #fff;
+}
+
+.auth-layout {
+  display: grid;
+  min-height: 100vh;
+  grid-template-columns: minmax(340px, .9fr) 1.1fr;
+}
+
+.auth-intro {
+  position: relative;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  padding: 42px clamp(30px, 6vw, 88px);
+  color: white;
+  background:
+    radial-gradient(ellipse at 14% 86%, rgb(74 140 102 / 45%), transparent 37%),
+    linear-gradient(145deg, #183e31, #1d5942 58%, #244d3f);
+}
+
+.auth-intro::after {
+  position: absolute;
+  right: -170px;
+  bottom: -230px;
+  width: 580px;
+  height: 580px;
+  border: 1px solid rgb(255 255 255 / 10%);
+  border-radius: 50%;
+  box-shadow: 0 0 0 55px rgb(255 255 255 / 3%),
+              0 0 0 110px rgb(255 255 255 / 2%);
+  content: '';
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink);
+  font: 800 17px 'Manrope', sans-serif;
+  text-decoration: none;
+}
+
+.brand-mark {
+  display: inline-grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border-radius: 9px;
+  color: white;
+  background: var(--green);
+  font: 800 16px 'Manrope', sans-serif;
+}
+
+.brand-light {
+  z-index: 1;
+  color: white;
+}
+
+.brand-light .brand-mark {
+  color: var(--green-dark);
+  background: #d5e9d8;
+}
+
+.eyebrow {
+  margin: 0 0 9px;
+  color: var(--green);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.intro-copy {
+  z-index: 1;
+  max-width: 480px;
+  padding: 60px 0 70px;
+}
+
+.intro-copy .eyebrow {
+  color: #b6d7c0;
+}
+
+.intro-copy h1 {
+  max-width: 430px;
+  margin: 0 0 20px;
+  font: 700 clamp(42px, 5vw, 64px)/1.05 'Manrope', sans-serif;
+}
+
+.intro-copy > p:last-child {
+  max-width: 360px;
+  margin: 0;
+  color: #d2e2d6;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.intro-note {
+  z-index: 1;
+  color: #c4ddcb;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.auth-panel {
+  display: grid;
+  place-items: center;
+  padding: 50px 28px;
+}
+
+.auth-form-wrap {
+  width: min(100%, 390px);
+}
+
+.auth-form-wrap h2 {
+  margin: 0 0 8px;
+  font: 700 28px 'Manrope', sans-serif;
+}
+
+.auth-form-wrap > .muted {
+  margin: 0 0 30px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.form-stack {
+  display: grid;
+  gap: 16px;
+}
+
+.field {
+  display: grid;
+  gap: 7px;
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.field input {
+  width: 100%;
+  min-height: 43px;
+  padding: 0 12px;
+  border: 1px solid #d9e0da;
+  border-radius: 4px;
+  outline: 0;
+  color: var(--ink);
+  background: white;
+  font-weight: 400;
+}
+
+.field input:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgb(29 118 88 / 12%);
+}
+
+.button {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: background .18s ease, transform .18s ease;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+}
+
+.button-primary {
+  color: white;
+  background: var(--green);
+}
+
+.button-primary:hover {
+  background: var(--green-dark);
+}
+
+.button-wide {
+  width: 100%;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.auth-switch {
+  margin: 24px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+}
+
+.auth-switch a {
+  font-weight: 700;
+  text-decoration: none;
+}
+
+@media (max-width: 640px) {
+  .auth-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-intro {
+    min-height: 250px;
+    padding: 24px;
+  }
+
+  .intro-copy {
+    padding: 43px 0 29px;
+  }
+
+  .intro-copy h1 {
+    max-width: 360px;
+    font-size: 38px;
+  }
+
+  .intro-copy > p:last-child {
+    font-size: 13px;
+  }
+
+  .intro-note {
+    display: none;
+  }
+
+  .auth-panel {
+    padding: 42px 24px 56px;
+  }
+
+  .auth-form-wrap h2 {
+    font-size: 25px;
+  }
+}

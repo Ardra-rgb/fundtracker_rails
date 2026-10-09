@@ -1,0 +1,55 @@
+
+<main class="auth-layout">
+  <section class="auth-intro">
+    <%= link_to "/", class: "brand brand-light" do %>
+      <span class="brand-mark">F</span> Fund Ledger
+    <% end %>
+
+    <div class="intro-copy">
+      <p class="eyebrow">A clearer view of every contribution</p>
+      <h1>Start managing your fund.</h1>
+      <p>One calm place to manage members, monthly dues, and every payment received.</p>
+    </div>
+
+    <span class="intro-note">MEMBERS · INSTALLMENTS · HISTORY</span>
+  </section>
+
+  <section class="auth-panel">
+    <div class="auth-form-wrap">
+      <p class="eyebrow">FUND TRACKER</p>
+      <h2>Create your account</h2>
+      <p class="muted">Register to get started.</p>
+
+      <%= form_with url: "/register", method: :post, class: "form-stack" do %>
+        <label class="field" for="username">
+          <span>Username</span>
+          <%= text_field_tag :username, nil, id: "username",
+              autocomplete: "username", required: true %>
+        </label>
+
+        <label class="field" for="password">
+          <span>Password</span>
+          <%= password_field_tag :password, nil, id: "password",
+              autocomplete: "new-password", required: true %>
+        </label>
+
+        <label class="field" for="password_confirmation">
+          <span>Confirm password</span>
+          <%= password_field_tag :password_confirmation, nil,
+              id: "password_confirmation",
+              autocomplete: "new-password", required: true %>
+        </label>
+
+        <button class="button button-primary button-wide" type="submit">
+          Create account →
+        </button>
+      <% end %>
+
+      <p class="auth-switch">
+        Already have an account?
+        <%= link_to "Sign in", "/login" %>
+      </p>
+    </div>
+  </section>
+</main>
+

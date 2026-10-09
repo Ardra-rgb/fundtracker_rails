@@ -1,0 +1,48 @@
+```erb
+<main class="auth-layout">
+
+  <section class="auth-intro">
+    <%= link_to "/login", class: "brand brand-light" do %>
+      <span class="brand-mark">F</span> Fund Ledger
+    <% end %>
+
+    <div class="intro-copy">
+      <p class="eyebrow">A clearer view of every contribution</p>
+      <h1>Keep your fund moving.</h1>
+      <p>One calm place to manage members, monthly dues, and every payment received.</p>
+    </div>
+
+    <span class="intro-note">MEMBERS · INSTALLMENTS · HISTORY</span>
+  </section>
+
+  <section class="auth-panel">
+    <div class="auth-form-wrap">
+      <p class="eyebrow">FUND TRACKER</p>
+      <h2>Welcome back</h2>
+      <p class="muted">Sign in to continue to your dashboard.</p>
+
+      <%= form_with url: "/login", method: :post, class: "form-stack" do %>
+        <label class="field" for="username">
+          <span>Username</span>
+          <%= text_field_tag :username, nil, id: "username", autocomplete: "username", required: true %>
+        </label>
+
+        <label class="field" for="password">
+          <span>Password</span>
+          <%= password_field_tag :password, nil, id: "password", autocomplete: "current-password", required: true %>
+        </label>
+
+        <button class="button button-primary button-wide" type="submit">
+          Sign in <span aria-hidden="true">→</span>
+        </button>
+      <% end %>
+
+      <p class="auth-switch">
+        New to Fund Ledger?
+        <%= link_to "Create an account", "/register" %>
+      </p>
+    </div>
+  </section>
+
+</main>
+```
