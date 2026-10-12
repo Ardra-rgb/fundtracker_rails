@@ -20,6 +20,12 @@
       <p class="eyebrow">FUND TRACKER</p>
       <h2>Welcome back</h2>
       <p class="muted">Sign in to continue to your dashboard.</p>
+      <% if flash[:alert].present? %>
+      <div class="auth-error" role="alert">
+        <span aria-hidden="true">•</span>
+        <span><%= flash[:alert] %></span>
+      </div>
+    <% end %>
 
       <%= form_with url: "/login", method: :post, class: "form-stack" do %>
         <label class="field" for="username">

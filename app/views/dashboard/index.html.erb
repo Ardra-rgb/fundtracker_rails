@@ -3,12 +3,17 @@
 <% end %>
 <main class="dashboard-main">
   <section class="page-heading">
-    <div>
-      <p class="eyebrow">FUND TRACKER</p>
-      <h1>Dashboard</h1>
-      <p class="muted">An overview of your fund collections and payments.</p>
-    </div>
-  </section>
+  <div>
+    <p class="eyebrow">FUND TRACKER</p>
+    <h1>Dashboard</h1>
+    <p class="muted">An overview of your fund collections and payments.</p>
+  </div>
+
+  <%= button_to "Log out",
+      logout_path,
+      method: :delete,
+      class: "button button-primary" %>
+</section>
 
   <section class="stats-grid">
     <article class="stat-card stat-collected">

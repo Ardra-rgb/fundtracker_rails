@@ -36,15 +36,17 @@ class LoginController < ApplicationController
     if @user.save
       redirect_to login_path, notice: "Account created. Please sign in."
     else
-      flash.now[:alert] = @user.errors.full_messages.to_sentence
-      render :register, status: :unprocessable_entity
+      flash.now[:alert] =
+        "Please enter a correct username and password. Passwords are case-sensitive."
+
+      render :index, status: :unprocessable_entity
     end
   end
 
   def logout
-    reset_session
-    Current.reset
+  reset_session
+  Current.reset
 
-    redirect_to login_path, notice: "Logged out successfully."
-  end
+  redirect_to login_path, notice: "Logged out successfully."
+end
 end
