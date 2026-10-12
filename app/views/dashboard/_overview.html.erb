@@ -10,9 +10,12 @@
     </div>
 
     <%= link_to "Create monthly installments",
-        "#collection-period-form",
-        class: "button button-dark" %>
+    new_collection_period_path,
+    class: "button button-dark" %>
   </div>
+
+  <%= render "collection_periods",
+      periods: dashboard[:collection_periods] %>
 
   <div class="stats-grid">
     <article class="stat-card">

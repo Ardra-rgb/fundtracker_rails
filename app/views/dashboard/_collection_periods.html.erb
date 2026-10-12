@@ -1,0 +1,15 @@
+<% periods = Array(local_assigns[:periods]) %>
+
+<% if periods.any? %>
+  <section class="collection-period-summary" aria-label="Collection periods">
+    <p class="eyebrow">COLLECTION PERIODS</p>
+    <ul>
+      <% periods.each do |period| %>
+        <li>
+          <%= period.start_month.strftime("%B %Y") %>
+          – <%= period.end_month.strftime("%B %Y") %>
+        </li>
+      <% end %>
+    </ul>
+  </section>
+<% end %>

@@ -1,0 +1,84 @@
+<% content_for :title, "Choose collection months | Fund Ledger" %>
+
+<% content_for :head do %>
+  <%= stylesheet_link_tag "dashboard", "data-turbo-track": "reload" %>
+<% end %>
+
+<% content_for :body_class, "dashboard-page" %>
+
+<header class="topbar">
+  <%= link_to dashboard_path, class: "brand" do %>
+    <span class="brand-mark">F</span> Fund Ledger
+  <% end %>
+
+  <div class="user-area">
+    <div class="user-menu">
+      <span class="user-avatar">
+        <%= Current.user&.username&.first&.upcase || "U" %>
+      </span>
+
+      <span class="user-name"><%= Current.user&.username %></span>
+
+      <%= button_to "Log out",
+          logout_path,
+          method: :delete,
+          class: "logout-button" %>
+    </div>
+  </div>
+</header>
+
+<main class="dashboard-main period-page">
+  <div class="page-heading">
+    <div>
+      <p class="eyebrow">COLLECTION SETUP</p>
+      <h1>Choose collection months</h1>
+      <p class="muted">
+        Installments will be created for every active member in each selected month.
+      </p>
+    </div>
+  </div>
+
+  <% if @collection_period.errors.any? %>
+    <div class="messages">
+      <% @collection_period.errors.full_messages.each do |message| %>
+        <p class="message error"><%= message %></p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <section class="period-form-panel">
+    <%= form_with model: @collection_period,
+        url: collection_periods_path,
+        method: :post do |form| %>
+
+      <div class="period-fields">
+        <label class="field">
+          <span>Start month</span>
+          <%= form.month_field :start_month,
+              value: @collection_period.start_month&.strftime("%Y-%m"),
+              required: true %>
+        </label>
+
+        <label class="field">
+          <span>End month</span>
+          <%= form.month_field :end_month,
+              value: @collection_period.end_month&.strftime("%Y-%m"),
+              required: true %>
+        </label>
+      </div>
+
+      <p class="muted">
+        All months from the start through the end month are included.
+      </p>
+
+      <div class="period-actions">
+        <%= link_to "Cancel",
+            dashboard_path,
+            class: "button button-quiet" %>
+
+        <%= form.submit "Create installments",
+            class: "button button-primary" %>
+      </div>
+    <% end %>
+  </section>
+</main>

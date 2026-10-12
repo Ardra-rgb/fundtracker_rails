@@ -49,8 +49,7 @@ class PaymentsControllerTest < ActionDispatch::IntegrationTest
     }
 
     assert_redirected_to dashboard_path(
-      month: @previous_month.strftime("%Y-%m"),
-      member: @member.id
+      month: @previous_month.strftime("%Y-%m")
     )
     assert_equal 1, Payment.count
 
@@ -59,11 +58,15 @@ class PaymentsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_includes response.body, "Cash Payment Member"
     assert_includes response.body, "Cash"
+    assert_includes response.body, Date.current.strftime("%b %-d, %Y")
 
     get dashboard_path(month: @previous_month.strftime("%Y-%m"))
 
     assert_response :success
     assert_includes response.body, "Cash Payment Member"
     assert_includes response.body, "Cash"
+    assert_includes response.body, Date.current.strftime("%b %-d, %Y")
+    assert_includes response.body, "Monthly installments"
+    assert_includes response.body, "All installments are paid for this month."
   end
 end

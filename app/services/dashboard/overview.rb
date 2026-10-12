@@ -88,6 +88,8 @@ module Dashboard
       {
         selected_month: month,
         current_month: month.strftime("%B %Y"),
+        collection_periods: @user.collection_periods.order(:start_month).to_a,
+        collection_months: collection_months,
         focused_member: focused_member,
         members: @user.members.order(:member_id),
         installments: installments,
@@ -113,6 +115,21 @@ module Dashboard
     end
 
     private
+
+    def collection_months
+  @user.collection_periods.order(:start_month).flat_map do |period|
+    months = []
+    current = period.start_month.beginning_of_month
+    finish = period.end_month.beginning_of_month
+
+    while current <= finish
+      months << current
+      current = current.next_month
+    end
+
+    months
+  end.uniq.sort
+end
 
     def selected_month
       if @params[:month].present?

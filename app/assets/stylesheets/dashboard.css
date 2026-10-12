@@ -78,6 +78,28 @@
   font-size: 11px;
 }
 
+.collection-period-summary {
+  margin: 0 0 20px;
+  padding: 12px 15px;
+  border-left: 3px solid var(--green);
+  color: var(--green-dark);
+  background: var(--mint);
+  font-size: 12px;
+}
+
+.collection-period-summary .eyebrow {
+  margin: 0 0 5px;
+}
+
+.collection-period-summary ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
 /* User information and logout */
 .user-area {
   display: grid;

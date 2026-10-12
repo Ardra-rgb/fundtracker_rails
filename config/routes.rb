@@ -26,7 +26,7 @@ Rails.application.routes.draw do
   resources :payments, only: [:destroy]
 
   # Collection periods
-  resources :collection_periods, only: [:create]
+  resources :collection_periods, only: %i[new create]
 
   post "collection_periods/:id/generate_installments",
        to: "collection_periods#generate_installments",

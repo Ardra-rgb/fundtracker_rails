@@ -22,8 +22,7 @@ class PaymentsController < ApplicationController
 
     if @payment.save
       redirect_to dashboard_path(
-        month: @installment.month.strftime("%Y-%m"),
-        member: @installment.member_id
+        month: @installment.month.strftime("%Y-%m")
       ), notice: "Payment recorded."
     else
       redirect_to dashboard_path(

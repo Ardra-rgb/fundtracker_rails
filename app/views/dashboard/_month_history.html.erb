@@ -1,5 +1,4 @@
 
-<% selected_month = dashboard[:selected_month] || Date.current.beginning_of_month %>
 <% payments = dashboard[:selected_month_payments] %>
 <% focused_member = dashboard[:focused_member] %>
 
@@ -24,6 +23,11 @@
         class: "button button-quiet" %>
   <% end %>
 </div>
+
+<%= render "collection_periods",
+    periods: dashboard[:collection_periods] %>
+
+<%= render "installments", dashboard: dashboard %>
 
 <section class="content-section" id="payments">
   <div class="section-heading">
@@ -74,7 +78,9 @@
               <%= button_to "Delete",
                   payment_path(payment),
                   method: :delete,
-                  params: { month: selected_month.strftime("%Y-%m") },
+                  params: {
+                    month: payment.installment.month.strftime("%Y-%m")
+                  },
                   class: "button button-danger-small",
                   form: {
                     class: "row-delete-form",
