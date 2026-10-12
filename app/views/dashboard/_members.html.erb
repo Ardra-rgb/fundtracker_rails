@@ -1,0 +1,171 @@
+
+<% selected_month = dashboard[:selected_month] || Date.current.beginning_of_month %>
+<% members = dashboard[:members] %>
+
+<section class="content-section" id="members">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">YOUR COMMUNITY</p>
+      <h2>Members</h2>
+    </div>
+    <span class="section-count"><%= members.length %> total</span>
+  </div>
+
+  <div class="member-layout">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Member</th>
+            <th>Phone</th>
+            <th>Monthly amount</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% members.each do |member| %>
+            <tr>
+              <td>
+                <span class="member-initial">
+                  <%= member.name.first.upcase %>
+                </span>
+                <span class="member-name"><%= member.name %></span>
+                <small class="member-id"><%= member.member_id %></small>
+              </td>
+
+              <td><%= member.phone %></td>
+
+              <td>
+                <%= number_to_currency(member.monthly_amount, unit: "₹", precision: 2) %>
+              </td>
+
+              <td>
+                <span class="status-pill <%= member.active? ? 'status-active' : 'status-inactive' %>">
+                  <%= member.active? ? "Active" : "Inactive" %>
+                </span>
+              </td>
+
+              <td>
+                <details class="row-editor">
+                  <summary class="button button-small">Edit</summary>
+
+                  <%= form_with model: member,
+                      url: member_path(member),
+                      method: :patch,
+                      class: "row-edit-form member-edit-popover" do |form| %>
+
+                    <%= hidden_field_tag :month, selected_month.strftime("%Y-%m") %>
+
+                    <h3>Edit <%= member.name %></h3>
+
+                    <label class="field">
+                      <span>Member ID</span>
+                      <%= form.text_field :member_id, required: true, maxlength: 20 %>
+                    </label>
+
+                    <label class="field">
+                      <span>Name</span>
+                      <%= form.text_field :name, required: true, maxlength: 150 %>
+                    </label>
+
+                    <label class="field">
+                      <span>Phone</span>
+                      <%= form.telephone_field :phone, required: true, maxlength: 15 %>
+                    </label>
+
+                    <label class="field">
+                      <span>Monthly amount</span>
+                      <%= form.number_field :monthly_amount,
+                          min: 0,
+                          step: "0.01",
+                          required: true %>
+                    </label>
+
+                    <label class="field">
+                      <%= form.check_box :active %>
+                      Active member
+                    </label>
+
+                    <div class="member-edit-actions">
+                      <%= form.submit "Save", class: "button button-small" %>
+                      <button class="button button-quiet" type="button"
+                              onclick="this.closest('details').open = false">
+                        Cancel
+                      </button>
+                    </div>
+                  <% end %>
+                </details>
+
+                <%= button_to "Delete",
+                    member_path(member),
+                    method: :delete,
+                    params: { month: selected_month.strftime("%Y-%m") },
+                    class: "button button-danger-small",
+                    form: {
+                      class: "row-delete-form",
+                      data: {
+                        turbo_confirm: "Delete #{member.name} and all associated records?"
+                      }
+                    } %>
+              </td>
+            </tr>
+          <% end %>
+
+          <% if members.empty? %>
+            <tr>
+              <td class="empty-state" colspan="5">
+                No members yet. Add your first member to get started.
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <aside class="add-member-panel">
+      <p class="eyebrow">GET STARTED</p>
+      <h3>Add a member</h3>
+
+      <%= form_with model: Member.new,
+          url: members_path,
+          class: "form-stack compact-form" do |form| %>
+
+        <%= hidden_field_tag :month, selected_month.strftime("%Y-%m") %>
+
+        <label class="field">
+          <span>Member ID</span>
+          <%= form.text_field :member_id, required: true, maxlength: 20,
+              placeholder: "e.g. M001" %>
+        </label>
+
+        <label class="field">
+          <span>Name</span>
+          <%= form.text_field :name, required: true, maxlength: 150,
+              placeholder: "Member name" %>
+        </label>
+
+        <label class="field">
+          <span>Phone</span>
+          <%= form.telephone_field :phone, required: true, maxlength: 15,
+              placeholder: "Phone number" %>
+        </label>
+
+        <label class="field">
+          <span>Monthly amount (₹)</span>
+          <%= form.number_field :monthly_amount, min: 0, step: "0.01",
+              required: true, placeholder: "0.00" %>
+        </label>
+
+        <label class="field">
+          <%= form.check_box :active, checked: true %>
+          Active member
+        </label>
+
+        <%= form.submit "Add member →",
+            class: "button button-primary button-wide" %>
+      <% end %>
+    </aside>
+  </div>
+</section>

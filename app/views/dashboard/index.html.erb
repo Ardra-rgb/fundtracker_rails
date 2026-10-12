@@ -1,53 +1,57 @@
+
 <% content_for :head do %>
   <%= stylesheet_link_tag "dashboard", "data-turbo-track": "reload" %>
 <% end %>
-<main class="dashboard-main">
-  <section class="page-heading">
-  <div>
-    <p class="eyebrow">FUND TRACKER</p>
-    <h1>Dashboard</h1>
-    <p class="muted">An overview of your fund collections and payments.</p>
-  </div>
 
-  <%= button_to "Log out",
-      logout_path,
-      method: :delete,
-      class: "button button-primary" %>
-</section>
+<% content_for :body_class,
+    (@dashboard[:show_members_only] ? "dashboard-page members-page" : "dashboard-page") %>
 
-  <section class="stats-grid">
-    <article class="stat-card stat-collected">
-      <span class="stat-label">Total Members</span>
-      <strong>0</strong>
-      <span class="stat-foot">Registered members</span>
-    </article>
+<%= render "navbar", dashboard: @dashboard %>
 
-    <article class="stat-card stat-collected">
-      <span class="stat-label">Total Collected</span>
-      <strong>₹0</strong>
-      <span class="stat-foot">Payments received</span>
-    </article>
+<main class="dashboard-main" id="overview">
 
-    <article class="stat-card stat-pending">
-      <span class="stat-label">Pending Amount</span>
-      <strong>₹0</strong>
-      <span class="stat-foot">Payments outstanding</span>
-    </article>
-
-    <article class="stat-card">
-      <span class="stat-label">Monthly Installment</span>
-      <strong>₹0</strong>
-      <span class="stat-foot">Current collection period</span>
-    </article>
-  </section>
-
-  <section class="content-section">
-    <div class="section-heading">
-      <h2>Welcome to Fund Ledger</h2>
+  <% flash.each do |type, message| %>
+    <div class="messages">
+      <p class="message <%= type %>"><%= message %></p>
     </div>
-    <p class="muted">
-      Your members, installments, and payment records will appear here
-      as we build the dashboard features.
-    </p>
-  </section>
+  <% end %>
+
+  <% if @dashboard[:show_month_history] %>
+
+    <%= render "month_history", dashboard: @dashboard %>
+
+  <% elsif @dashboard[:show_payments_only] %>
+
+    <%= render "payments", dashboard: @dashboard %>
+
+  <% elsif @dashboard[:show_members_only] %>
+
+    <div class="page-heading">
+      <div>
+        <p class="eyebrow">YOUR COMMUNITY</p>
+        <h1>Members</h1>
+        <p class="muted">Member details and account actions.</p>
+      </div>
+    </div>
+
+    <%= render "members", dashboard: @dashboard %>
+
+  <% else %>
+
+    <%= render "overview", dashboard: @dashboard %>
+
+    <%= render "members", dashboard: @dashboard %>
+
+    <%= render "installments", dashboard: @dashboard %>
+
+  <% end %>
+
+  <% unless @dashboard[:show_members_only] ||
+            @dashboard[:show_payments_only] ||
+            @dashboard[:show_month_history] %>
+    <footer class="page-footer">
+      Fund Ledger <span>·</span> <%= @dashboard[:current_month] %>
+    </footer>
+  <% end %>
+
 </main>

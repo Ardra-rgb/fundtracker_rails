@@ -1,0 +1,99 @@
+
+<% selected_month = dashboard[:selected_month] || Date.current.beginning_of_month %>
+<% payments = dashboard[:selected_month_payments] %>
+<% focused_member = dashboard[:focused_member] %>
+
+<div class="page-heading">
+  <div>
+    <p class="eyebrow">MONTHLY LEDGER</p>
+    <h1>Payment history · <%= dashboard[:current_month] %></h1>
+
+    <p class="muted">
+      <% if focused_member %>
+        Ledger for <%= focused_member.name %>.
+      <% else %>
+        Payments recorded for installments due in
+        <%= dashboard[:current_month] %>.
+      <% end %>
+    </p>
+  </div>
+
+  <% unless focused_member %>
+    <%= link_to "Back to dashboard",
+        dashboard_path,
+        class: "button button-quiet" %>
+  <% end %>
+</div>
+
+<section class="content-section" id="payments">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow"><%= dashboard[:current_month].upcase %></p>
+      <h2>Payments</h2>
+    </div>
+
+    <span class="section-count"><%= payments.length %> recorded</span>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Member</th>
+          <th>Paid on</th>
+          <th>Amount</th>
+          <th>Reference</th>
+          <th>Recorded by</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% payments.each do |payment| %>
+          <tr>
+            <td>
+              <span class="member-name">
+                <%= payment.installment.member.name %>
+              </span>
+              <small class="member-id">
+                <%= payment.installment.member.member_id %>
+              </small>
+            </td>
+
+            <td><%= payment.payment_date.strftime("%b %-d, %Y") %></td>
+
+            <td>
+              <%= number_to_currency(payment.amount, unit: "₹", precision: 2) %>
+            </td>
+
+            <td><%= payment.reference.presence || "—" %></td>
+
+            <td><%= payment.recorded_by&.username || "—" %></td>
+
+            <td>
+              <%= button_to "Delete",
+                  payment_path(payment),
+                  method: :delete,
+                  params: { month: selected_month.strftime("%Y-%m") },
+                  class: "button button-danger-small",
+                  form: {
+                    class: "row-delete-form",
+                    data: {
+                      turbo_confirm: "Delete this payment? Its installment will become unpaid."
+                    }
+                  } %>
+            </td>
+          </tr>
+        <% end %>
+
+        <% if payments.empty? %>
+          <tr>
+            <td class="empty-state" colspan="6">
+              No payments recorded for <%= dashboard[:current_month] %>.
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</section>

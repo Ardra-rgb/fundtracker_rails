@@ -1,0 +1,76 @@
+
+<% selected_month = dashboard[:selected_month] || Date.current.beginning_of_month %>
+<% collection_months = Array(dashboard[:collection_months]) %>
+<% collection_months = [selected_month] if collection_months.empty? %>
+
+<header class="topbar">
+  <%= link_to dashboard_path(anchor: "overview"), class: "brand" do %>
+    <span class="brand-mark">F</span> Fund Ledger
+  <% end %>
+
+  <nav class="topnav" aria-label="Main navigation">
+    <%= link_to "Overview",
+        dashboard_path(anchor: "overview"),
+        class: "nav-link#{' active' unless dashboard[:show_members_only] || dashboard[:show_payments_only] || dashboard[:show_month_history]}" %>
+
+    <%= link_to "Members",
+        dashboard_path(view: "members"),
+        class: "nav-link#{' active' if dashboard[:show_members_only]}" %>
+
+    <%= link_to "Payments",
+        dashboard_path(view: "payments"),
+        class: "nav-link#{' active' if dashboard[:show_payments_only] || dashboard[:show_month_history]}" %>
+  </nav>
+
+  <div class="user-area<%= ' user-area-payments' if dashboard[:show_payments_only] %>">
+    <div class="user-menu">
+      <span class="user-avatar">
+        <%= Current.user&.username&.first&.upcase || "U" %>
+      </span>
+
+      <span class="user-name"><%= Current.user&.username %></span>
+
+      <%= button_to "Log out",
+          logout_path,
+          method: :delete,
+          class: "logout-button" %>
+    </div>
+
+    <% if dashboard[:show_payments_only] %>
+      <%= form_with url: dashboard_path,
+          method: :get,
+          class: "payment-search-form payment-search-form-compact" do %>
+
+        <%= hidden_field_tag :view, "payments" %>
+
+        <%= date_field_tag :payment_date,
+            dashboard[:payment_date_filter],
+            aria: { label: "Search by payment date" } %>
+
+        <%= search_field_tag :member_name,
+            dashboard[:member_name_filter],
+            placeholder: "Member name",
+            aria: { label: "Search by member name" } %>
+
+        <%= submit_tag "Search", class: "button button-primary" %>
+
+        <% if dashboard[:payment_date_filter].present? ||
+              dashboard[:member_name_filter].present? %>
+          <%= link_to "Clear",
+              dashboard_path(view: "payments"),
+              class: "button button-quiet" %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <% unless dashboard[:show_members_only] %>
+    <nav class="month-nav" aria-label="Collection months">
+      <% collection_months.each do |month| %>
+        <%= link_to month.strftime("%b %Y"),
+            dashboard_path(month: month.strftime("%Y-%m")),
+            class: "month-link#{' active' if month == selected_month}" %>
+      <% end %>
+    </nav>
+  <% end %>
+</header>

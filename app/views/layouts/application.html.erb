@@ -24,7 +24,7 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   </head>
 
-  <body>
+  <body class="<%= content_for(:body_class) %>">
     <%= yield %>
   </body>
 </html>

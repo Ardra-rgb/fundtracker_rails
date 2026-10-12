@@ -1,0 +1,159 @@
+
+<% selected_month = dashboard[:selected_month] || Date.current.beginning_of_month %>
+<% installments = dashboard[:installments] %>
+<% pending_installments = dashboard[:pending_installments] %>
+
+<section class="content-section" id="installments">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow"><%= dashboard[:current_month].upcase %></p>
+      <h2>Monthly installments</h2>
+    </div>
+
+    <span class="section-count">
+      <%= pending_installments.length %> pending
+    </span>
+  </div>
+
+  <div class="pending-summary" aria-live="polite">
+    <% if pending_installments.any? %>
+      <strong><%= pending_installments.length %> unpaid</strong>
+      <span>
+        <% pending_installments.each_with_index do |installment, index| %>
+          <%= link_to "#{installment.member.name} (#{installment.member.member_id})",
+              "#installment-#{installment.id}" %>
+          <% unless index == pending_installments.length - 1 %>
+            <span class="pending-separator">·</span>
+          <% end %>
+        <% end %>
+      </span>
+    <% else %>
+      <strong>All installments are paid for this month.</strong>
+    <% end %>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Member</th>
+          <th>Installment month</th>
+          <th>Due date</th>
+          <th>Amount</th>
+          <th>Status</th>
+          <th>Record payment</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% installments.each do |installment| %>
+          <tr id="installment-<%= installment.id %>">
+            <td>
+              <span class="member-name"><%= installment.member.name %></span>
+              <small class="member-id"><%= installment.member.member_id %></small>
+            </td>
+
+            <td><%= installment.month.strftime("%B %Y") %></td>
+
+            <td><%= installment.due_date.strftime("%b %-d, %Y") %></td>
+
+            <td>
+              <%= number_to_currency(installment.amount, unit: "₹", precision: 2) %>
+            </td>
+
+            <td>
+              <% if installment.payment.present? %>
+                <span class="status-pill status-paid">Paid</span>
+              <% else %>
+                <span class="status-pill status-pending">Pending</span>
+              <% end %>
+            </td>
+
+            <td>
+              <% if installment.payment.present? %>
+                <span class="muted">
+                  <%= installment.payment.payment_date.strftime("%b %-d") %>
+                </span>
+              <% else %>
+                <%= form_with url: installment_payment_path(installment),
+                    method: :post,
+                    class: "payment-form" do |form| %>
+
+                  <%= hidden_field_tag :month, selected_month.strftime("%Y-%m") %>
+
+                  <%= form.date_field :payment_date,
+                      value: Date.current,
+                      required: true,
+                      aria: { label: "Payment date" } %>
+
+                  <%= form.text_field :reference,
+                      maxlength: 100,
+                      placeholder: "Reference",
+                      aria: { label: "Payment reference" } %>
+
+                  <%= form.submit "Record", class: "button button-small" %>
+                <% end %>
+              <% end %>
+            </td>
+
+            <td>
+              <details class="row-editor">
+                <summary class="button button-small">Edit</summary>
+
+                <%= form_with model: installment,
+                    url: installment_path(installment),
+                    method: :patch,
+                    class: "row-edit-form" do |form| %>
+
+                  <%= hidden_field_tag :month, selected_month.strftime("%Y-%m") %>
+
+                  <label class="field">
+                    <span>Installment month</span>
+                    <%= form.month_field :month, required: true %>
+                  </label>
+
+                  <label class="field">
+                    <span>Due date</span>
+                    <%= form.date_field :due_date, required: true %>
+                  </label>
+
+                  <label class="field">
+                    <span>Amount</span>
+                    <%= form.number_field :amount,
+                        min: 0,
+                        step: "0.01",
+                        required: true %>
+                  </label>
+
+                  <%= form.submit "Save", class: "button button-small" %>
+                <% end %>
+              </details>
+
+              <%= button_to "Delete",
+                  installment_path(installment),
+                  method: :delete,
+                  params: { month: selected_month.strftime("%Y-%m") },
+                  class: "button button-danger-small",
+                  form: {
+                    class: "row-delete-form",
+                    data: {
+                      turbo_confirm: "Delete this installment and its payment record?"
+                    }
+                  } %>
+            </td>
+          </tr>
+        <% end %>
+
+        <% if installments.empty? %>
+          <tr>
+            <td class="empty-state" colspan="7">
+              No installments found for <%= dashboard[:current_month] %>.
+              Create a collection period and generate installments to get started.
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</section>

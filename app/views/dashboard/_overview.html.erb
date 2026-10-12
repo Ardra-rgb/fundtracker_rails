@@ -1,0 +1,40 @@
+
+<section id="overview" class="dashboard-main">
+  <div class="page-heading">
+    <div>
+      <h1>Good to see you, <%= Current.user.username %>.</h1>
+      <p>
+        Here is your collection snapshot for
+        <%= dashboard[:current_month] %>.
+      </p>
+    </div>
+
+    <%= link_to "Create monthly installments",
+        "#collection-period-form",
+        class: "button button-dark" %>
+  </div>
+
+  <div class="stats-grid">
+    <article class="stat-card">
+      <p class="stat-label">Collected this month</p>
+      <h2 class="stat-value">
+        <%= number_to_currency(dashboard[:collected], unit: "₹", precision: 2) %>
+      </h2>
+    </article>
+
+    <article class="stat-card">
+      <p class="stat-label">Active members</p>
+      <h2 class="stat-value"><%= dashboard[:active_members] %></h2>
+    </article>
+
+    <article class="stat-card">
+      <p class="stat-label">Members paid</p>
+      <h2 class="stat-value"><%= dashboard[:paid_count] %></h2>
+    </article>
+
+    <article class="stat-card">
+      <p class="stat-label">Still pending</p>
+      <h2 class="stat-value"><%= dashboard[:pending_member_count] %></h2>
+    </article>
+  </div>
+</section>
