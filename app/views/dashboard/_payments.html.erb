@@ -1,11 +1,10 @@
 
-<% payments = dashboard[:selected_month_payments] %>
-<% selected_month = dashboard[:selected_month] || Date.current.beginning_of_month %>
+<% payments = dashboard[:payments] %>
 
 <section class="content-section" id="payments">
   <div class="section-heading">
     <div>
-      <p class="eyebrow"><%= dashboard[:current_month].upcase %></p>
+      <p class="eyebrow">PAYMENT HISTORY</p>
       <h2>Payments</h2>
     </div>
 
@@ -53,7 +52,9 @@
               <%= button_to "Delete",
                   payment_path(payment),
                   method: :delete,
-                  params: { month: selected_month.strftime("%Y-%m") },
+                  params: {
+                    month: payment.installment.month.strftime("%Y-%m")
+                  },
                   class: "button button-danger-small",
                   form: {
                     class: "row-delete-form",
@@ -68,7 +69,7 @@
         <% if payments.empty? %>
           <tr>
             <td class="empty-state" colspan="6">
-              No payments recorded for <%= dashboard[:current_month] %>.
+              No payments match the selected filters.
             </td>
           </tr>
         <% end %>
