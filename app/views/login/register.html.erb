@@ -1,4 +1,7 @@
 
+<% content_for :head do %>
+  <%= stylesheet_link_tag "auth", "data-turbo-track": "reload" %>
+<% end %>
 <main class="auth-layout">
   <section class="auth-intro">
     <%= link_to "/", class: "brand brand-light" do %>
