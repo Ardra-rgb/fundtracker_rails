@@ -863,11 +863,12 @@ td .member-name + .member-id {
   white-space: normal;
 }
 
-.members-page .member-layout th:nth-child(1) { width: 25%; }
-.members-page .member-layout th:nth-child(2) { width: 18%; }
-.members-page .member-layout th:nth-child(3) { width: 17%; }
-.members-page .member-layout th:nth-child(4) { width: 18%; }
-.members-page .member-layout th:nth-child(5) { width: 22%; }
+.members-page .member-layout th:nth-child(1) { width: 7%; }
+.members-page .member-layout th:nth-child(2) { width: 23%; }
+.members-page .member-layout th:nth-child(3) { width: 16%; }
+.members-page .member-layout th:nth-child(4) { width: 19%; }
+.members-page .member-layout th:nth-child(5) { width: 14%; }
+.members-page .member-layout th:nth-child(6) { width: 21%; }
 
 .members-page .member-layout th,
 .members-page .member-layout td {

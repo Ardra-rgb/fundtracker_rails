@@ -15,6 +15,7 @@
     <table>
       <thead>
         <tr>
+          <th>No.</th>
           <th>Member</th>
           <th>Paid on</th>
           <th>Amount</th>
@@ -25,8 +26,10 @@
       </thead>
 
       <tbody>
-        <% payments.each do |payment| %>
+        <% payments.each_with_index do |payment, index| %>
           <tr>
+            <td><%= index + 1 %></td>
+
             <td>
               <span class="member-name">
                 <%= payment.installment.member.name %>
@@ -68,7 +71,7 @@
 
         <% if payments.empty? %>
           <tr>
-            <td class="empty-state" colspan="6">
+            <td class="empty-state" colspan="7">
               No payments match the selected filters.
             </td>
           </tr>
