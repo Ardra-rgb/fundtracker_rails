@@ -601,7 +601,7 @@ td .member-name + .member-id {
   position: static;
   display: grid;
   width: min(245px, calc(100vw - 48px));
-  gap: 10px;
+  gap: 6px;
   margin-top: 6px;
   padding: 13px;
   border: 1px solid var(--line);
@@ -1082,4 +1082,19 @@ aside.add-member-panel form.compact-form .button-wide {
   max-width: 100% !important;
   margin: 0 !important;
   box-sizing: border-box !important;
+}
+
+.installment-edit-popover:not(:popover-open) {
+  display: none;
+}
+
+.installment-edit-popover:popover-open {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  width: min(400px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  margin: auto;
+  padding: 20px;
 }

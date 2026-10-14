@@ -6,7 +6,7 @@
 
 What I studied:
 - How to maintain separate Git repositories for my Django and Ruby on Rails projects.
-- How `git add`, `git commit`, `git push`, Git branches and Git remotes work.
+- How git add, git commit, git push, Git branches and Git remotes work.
 - Why meaningful commit messages and regular documentation are important when developing a project.
 
 What I implemented:
