@@ -19,11 +19,11 @@ Rails.application.routes.draw do
 
   # Installments: edit and delete
   resources :installments, only: %i[update destroy] do
-    resource :payment, only: [:create], controller: "payments"
+    resource :payment, only: [ :create ], controller: "payments"
   end
 
   # Payments: delete
-  resources :payments, only: [:destroy]
+  resources :payments, only: [ :destroy ]
 
   # Collection periods
   resources :collection_periods, only: %i[new create]

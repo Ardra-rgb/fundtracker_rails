@@ -12,7 +12,7 @@ class CreateInstallments < ActiveRecord::Migration[8.1]
     end
 
     add_index :installments,
-              [:member_id, :month],
+              [ :member_id, :month ],
               unique: true,
               name: "unique_member_installment_month"
   end

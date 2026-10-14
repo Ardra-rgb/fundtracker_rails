@@ -74,3 +74,5 @@ What I learned:
 - The complete registration, login and logout flow still needs end-to-end testing.
 - The dashboard queries, forms, model associations and fund management operations need to be verified together.
 - The next step is to test authentication, connect the dashboard service to the models, and verify member, installment and payment operations.
+### MVC Architecture
+MVC Architecture rubby on rails

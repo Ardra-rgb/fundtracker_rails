@@ -13,7 +13,7 @@ class CreateCollectionPeriods < ActiveRecord::Migration[8.1]
     end
 
     add_index :collection_periods,
-              [:owner_id, :start_month, :end_month],
+              [ :owner_id, :start_month, :end_month ],
               unique: true,
               name: "unique_owner_period_range"
   end

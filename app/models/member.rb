@@ -23,5 +23,5 @@ class Member < ApplicationRecord
             presence: true,
             numericality: { greater_than_or_equal_to: 0 }
 
-  validates :active, inclusion: { in: [true, false] }
+  validates :active, inclusion: { in: [ true, false ] }
 end

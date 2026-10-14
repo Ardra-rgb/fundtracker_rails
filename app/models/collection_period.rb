@@ -8,7 +8,7 @@ class CollectionPeriod < ApplicationRecord
 
   validates :start_month,
             uniqueness: {
-              scope: [:owner_id, :end_month]
+              scope: [ :owner_id, :end_month ]
             }
 
   validate :end_month_cannot_be_before_start_month

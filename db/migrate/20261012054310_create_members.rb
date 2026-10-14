@@ -14,7 +14,7 @@ class CreateMembers < ActiveRecord::Migration[8.1]
       t.timestamps
     end
 
-    add_index :members, [:owner_id, :member_id],
+    add_index :members, [ :owner_id, :member_id ],
               unique: true,
               name: "unique_owner_member_id"
   end
