@@ -7,7 +7,7 @@ class CreateMembers < ActiveRecord::Migration[8.1]
 
       t.string :member_id, limit: 20, null: false
       t.string :name, limit: 150, null: false
-      t.string :phone, limit: 15, null: false
+      t.string :phone, limit: 10, null: false
       t.decimal :monthly_amount, precision: 10, scale: 2, null: false
       t.boolean :active, default: true, null: false
 
