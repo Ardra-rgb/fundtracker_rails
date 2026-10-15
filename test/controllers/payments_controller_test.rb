@@ -9,6 +9,7 @@ class PaymentsControllerTest < ActionDispatch::IntegrationTest
     )
     @member = @user.members.create!(
       member_id: "PAY-001",
+      ledger_number: 1,
       name: "Cash Payment Member",
       phone: "1234567890",
       monthly_amount: 25,

@@ -64,13 +64,14 @@
     <% end %>
   </div>
 
-  <% unless dashboard[:show_members_only] %>
-    <nav class="month-nav" aria-label="Collection months">
-      <% collection_months.each do |month| %>
-        <%= link_to month.strftime("%b %Y"),
-            dashboard_path(month: month.strftime("%Y-%m")),
-            class: "month-link#{' active' if month == selected_month}" %>
-      <% end %>
-    </nav>
-  <% end %>
+  <nav class="month-nav" aria-label="Collection months">
+    <% collection_months.each do |month| %>
+      <%= link_to month.strftime("%b %Y"),
+          dashboard_path({
+            month: month.strftime("%Y-%m"),
+            view: ("members" if dashboard[:show_members_only])
+          }.compact),
+          class: "month-link#{' active' if month == selected_month}" %>
+    <% end %>
+  </nav>
 </header>

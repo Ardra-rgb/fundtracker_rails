@@ -127,8 +127,7 @@
   margin-left: 6px;
 }
 
-.user-avatar,
-.member-initial {
+.user-avatar {
   display: inline-grid;
   width: 30px;
   height: 30px;
@@ -424,9 +423,13 @@
 /* Members table and add-member panel */
 .member-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 280px;
+  grid-template-columns: minmax(0, 1fr) 315px;
   gap: 15px;
   align-items: start;
+}
+
+.members-list {
+  min-width: 0;
 }
 
 .table-wrap {
@@ -434,6 +437,46 @@
   border: 1px solid var(--line);
   border-radius: 5px;
   background: white;
+}
+
+.members-table {
+  table-layout: fixed;
+  white-space: normal;
+}
+
+.members-table th:nth-child(1) { width: 8%; }
+.members-table th:nth-child(2) { width: 26%; }
+.members-table th:nth-child(3) { width: 16%; }
+.members-table th:nth-child(4) { width: 20%; }
+.members-table th:nth-child(5) { width: 13%; }
+.members-table th:nth-child(6) { width: 17%; }
+
+.members-table th,
+.members-table td {
+  overflow-wrap: anywhere;
+}
+
+.members-table td:first-child {
+  min-width: 0;
+}
+
+.member-number {
+  text-align: center;
+  color: #929b95;
+  font-size: 12px;
+}
+
+.member-actions {
+  white-space: nowrap;
+}
+
+.members-list .row-delete-form {
+  display: inline-block;
+  margin-left: 4px;
+}
+
+.members-pagination {
+  margin-top: 14px;
 }
 
 table {
@@ -467,14 +510,6 @@ tr:last-child td {
 
 td:first-child {
   min-width: 150px;
-}
-
-.member-initial {
-  width: 27px;
-  height: 27px;
-  margin-right: 8px;
-  vertical-align: middle;
-  font-size: 10px;
 }
 
 .member-name {
@@ -853,52 +888,8 @@ td .member-name + .member-id {
   font-size: 11px;
 }
 
-/* Members-only table layout */
-.members-page .member-layout .table-wrap {
-  overflow: visible;
-}
-
-.members-page .member-layout table {
-  table-layout: fixed;
-  white-space: normal;
-}
-
-.members-page .member-layout th:nth-child(1) { width: 7%; }
-.members-page .member-layout th:nth-child(2) { width: 23%; }
-.members-page .member-layout th:nth-child(3) { width: 16%; }
-.members-page .member-layout th:nth-child(4) { width: 19%; }
-.members-page .member-layout th:nth-child(5) { width: 14%; }
-.members-page .member-layout th:nth-child(6) { width: 21%; }
-
-.members-page .member-layout th,
-.members-page .member-layout td {
-  padding-right: 7px;
-  padding-left: 7px;
-  overflow-wrap: anywhere;
-}
-
-.members-page .member-layout td:first-child {
-  min-width: 0;
-}
-
-.members-page .member-layout td:last-child {
-  white-space: normal;
-}
-
-.members-page .member-layout .status-pill {
-  padding: 4px 5px;
-  font-size: 9px;
-}
-
-.members-page .member-layout td:last-child .button {
-  padding-right: 5px;
-  padding-left: 5px;
-  font-size: 11px;
-}
-
-.members-page .member-layout .row-delete-form {
-  display: block;
-  margin-top: 4px;
+.members-page .dashboard-main {
+  width: min(100% - 48px, 1372px);
 }
 
 /* Responsive dashboard */

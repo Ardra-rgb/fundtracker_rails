@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_12_060013) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_15_014500) do
   create_table "collection_periods", force: :cascade do |t|
     t.integer "owner_id", null: false
     t.date "start_month", null: false
@@ -41,6 +41,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_12_060013) do
     t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "ledger_number", null: false
+    t.index ["owner_id", "ledger_number"], name: "unique_owner_member_ledger_number", unique: true
     t.index ["owner_id", "member_id"], name: "unique_owner_member_id", unique: true
     t.index ["owner_id"], name: "index_members_on_owner_id"
   end
@@ -62,6 +64,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_12_060013) do
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "last_member_ledger_number", default: 0, null: false
   end
 
   add_foreign_key "collection_periods", "users", column: "owner_id"

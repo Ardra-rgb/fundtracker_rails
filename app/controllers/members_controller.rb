@@ -5,20 +5,34 @@ class MembersController < ApplicationController
   def create
     month = selected_month
     @member = Current.user.members.new(member_params)
+    user = Current.user
 
     Member.transaction do
-      @member.save!
+      user.with_lock do
+        ledger_number = user.last_member_ledger_number + 1
+        user.update!(last_member_ledger_number: ledger_number)
 
-      @member.installments.find_or_create_by!(month: month) do |installment|
-        installment.due_date = month.end_of_month
-        installment.amount = @member.monthly_amount
+        @member.ledger_number = ledger_number
+        @member.member_id = generated_member_id(user, ledger_number)
+        @member.save!
+
+        @member.installments.find_or_create_by!(month: month) do |installment|
+          installment.due_date = month.end_of_month
+          installment.amount = @member.monthly_amount
+        end
       end
     end
 
-    redirect_to dashboard_path(month: month.strftime("%Y-%m")),
+    redirect_to dashboard_path(
+      view: dashboard_view,
+      month: month.strftime("%Y-%m")
+    ),
                 notice: "Member added."
   rescue ActiveRecord::RecordInvalid => error
-    redirect_to dashboard_path,
+    redirect_to dashboard_path(
+      view: dashboard_view,
+      month: month.strftime("%Y-%m")
+    ),
                 alert: error.record.errors.full_messages.to_sentence
   end
 
@@ -46,7 +60,6 @@ class MembersController < ApplicationController
 
   def member_params
     params.require(:member).permit(
-      :member_id,
       :name,
       :phone,
       :monthly_amount,
@@ -62,5 +75,20 @@ class MembersController < ApplicationController
     end
   rescue Date::Error, ArgumentError
     Date.current.beginning_of_month
+  end
+
+  def dashboard_view
+    params[:view] == "members" ? "members" : "overview"
+  end
+
+  def generated_member_id(user, ledger_number)
+    candidate_number = ledger_number
+
+    loop do
+      candidate = "M#{candidate_number.to_s.rjust(3, '0')}"
+      return candidate unless user.members.exists?(member_id: candidate)
+
+      candidate_number += 1
+    end
   end
 end

@@ -26,14 +26,6 @@
 
   <% elsif @dashboard[:show_members_only] %>
 
-    <div class="page-heading">
-      <div>
-        <p class="eyebrow">YOUR COMMUNITY</p>
-        <h1>Members</h1>
-        <p class="muted">Member details and account actions.</p>
-      </div>
-    </div>
-
     <%= render "members", dashboard: @dashboard %>
 
   <% else %>

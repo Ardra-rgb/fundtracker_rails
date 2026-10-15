@@ -3,6 +3,7 @@
 one:
   owner: one
   member_id: MyString
+  ledger_number: 1
   name: MyString
   phone: MyString
   monthly_amount: 9.99
@@ -11,6 +12,7 @@ one:
 two:
   owner: two
   member_id: MyString
+  ledger_number: 1
   name: MyString
   phone: MyString
   monthly_amount: 9.99

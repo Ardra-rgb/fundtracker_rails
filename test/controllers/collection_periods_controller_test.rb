@@ -9,6 +9,7 @@ class CollectionPeriodsControllerTest < ActionDispatch::IntegrationTest
     )
     @member = @user.members.create!(
       member_id: "PER-001",
+      ledger_number: 1,
       name: "Period Test Member",
       phone: "1234567890",
       monthly_amount: 25,

@@ -91,7 +91,7 @@ module Dashboard
         collection_periods: @user.collection_periods.order(:start_month).to_a,
         collection_months: collection_months,
         focused_member: focused_member,
-        members: @user.members.order(:member_id),
+        members: @user.members.order(:ledger_number).page(@params[:members_page]).per(10),
         installments: installments,
         pending_installments: pending_installments,
         payments: payments,
@@ -100,7 +100,8 @@ module Dashboard
         member_name_filter: member_name_filter,
         show_members_only: @params[:view] == "members",
         show_payments_only: @params[:view] == "payments",
-        show_month_history: @params.key?(:month),
+        show_month_history: @params.key?(:month) &&
+          !%w[members overview].include?(@params[:view]),
         active_members: active_member_count,
         paid_count: paid_count,
         pending_member_count: [
